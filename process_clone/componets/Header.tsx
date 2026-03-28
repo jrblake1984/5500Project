@@ -12,7 +12,7 @@ export default function Header() {
         
         {/* Logo */}
         <Link href="/" className="text-xl font-bold">
-          MyApp
+          Process Feedback
         </Link>
 
         {/* Desktop Nav */}
