@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ProcessFeedback.org Reconstruction - Course Project
 
-## Getting Started
+A reconstruction of [processfeedback.org](https://www.processfeedback.org) built for a university software engineering course.
 
-First, run the development server:
+## Course
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+CMP_SCI-5500-001 · Software Engineering · Spring 2026 · UMSL
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Team
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Project Group 2**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Abdul Rafay Ahmed Khan
+- Jason Blake
+- Rosmin Rose Binoy
+- Yusuf Mohamed Said Ali
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: Next.js 16
+- **Styling**: Tailwind CSS
+- **Hosting**: Vercel
+- **Contact Form**: Web3Forms
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Attribution
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Content from [www.processfeedback.org](https://www.processfeedback.org). This project is a duplicate of a real public website created solely for academic purposes.
 
-## Deploy on Vercel
+## SDLC
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Iterative Incremental
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Search Engine Indexing
+
+This site uses `robots.txt` and `noindex` meta tags to prevent search engine indexing. The site is not intended to appear in search results.
+
+## Known Console Warnings
+
+Audited March 2026. No console errors or non-critical warnings found. The project uses no third-party libraries beyond Next.js 16, Tailwind CSS 4, and React 19. All warnings from those frameworks were resolved during development.
+
+## PageSpeed Insights (April 8, 2026)
+
+| Category | Mobile | Desktop |
+|---|---|---|
+| Performance | 92 | 100 |
+| Accessibility | 100 | 100 |
+| Best Practices | 100 | 100 |
+| SEO | 66 (intentional - blocked from indexing per guidelines section 5) | 66 |
+
+Mobile performance metrics:
+
+| Metric | Value | Score |
+|---|---|---|
+| First Contentful Paint | 1.7s | 93 |
+| Speed Index | 4.2s | 77 |
+| Largest Contentful Paint | 2.9s | 80 |
+| Total Blocking Time | 20ms | 100 |
+| Cumulative Layout Shift | 0.00 | 100 |
+
+Desktop: FCP 0.3s, LCP 0.3s, TBT 10ms, CLS 0, SI 0.5s - all perfect scores.
+
+---
+
+## Phase II Enhancements
+
+### Dark Mode Toggle
+- System-aware dark/light theme with manual toggle
+- Persists user preference across sessions (localStorage)
+- Respects OS-level dark mode preference on first visit
+
+### Accessibility (WCAG 2.1 AA)
+- Full audit using Lighthouse, keyboard testing, and screen reader
+- All pages score 95+ on Lighthouse accessibility
+- Full report: [ACCESSIBILITY.md](ACCESSIBILITY.md)
+
+### Documentation
+- [ACCESSIBILITY.md](ACCESSIBILITY.md) - WCAG 2.1 AA audit report
+- [FEEDBACK.md](FEEDBACK.md) - Feedback log with all fixes
+- [IMPROVEMENTS.md](IMPROVEMENTS.md) - Detailed improvements and decisions
+
