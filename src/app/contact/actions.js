@@ -13,6 +13,7 @@ export async function submitContact(prevState, formData) {
   const retypeEmail = formData.get("retypeEmail")?.toString().trim();
   const subject = formData.get("subject")?.toString().trim();
   const message = formData.get("message")?.toString().trim();
+  const captcha = formData.get("h-captcha-response")?.toString();
 
   if (!name || !email || !retypeEmail || !subject || !message) {
     return { success: false, message: "All fields are required." };
@@ -34,7 +35,9 @@ export async function submitContact(prevState, formData) {
   if (!accessKey) {
     return { success: false, message: "Contact form is not configured yet. Please try again later." };
   }
-
+  if (!captcha) {
+    return { success: false, message: "Please complete the captcha before submitting.",};
+  }
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -52,6 +55,7 @@ export async function submitContact(prevState, formData) {
         from_name: name,
         email: email,
         message: message,
+        "h-captcha-response": captcha,
       }),
       signal: controller.signal,
     });
