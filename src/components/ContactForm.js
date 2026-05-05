@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useRef, useEffect, useState } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { submitContact } from "@/app/contact/actions";
 
 const initialState = { success: null, message: "" };
@@ -11,11 +12,19 @@ export default function ContactForm() {
     initialState
   );
   const formRef = useRef(null);
+  const captchaRef = useRef(null);
   const [emailMismatch, setEmailMismatch] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaMissing, setCaptchaMissing] = useState(false);
 
   useEffect(() => {
     if (state.success === true) {
       if (formRef.current) formRef.current.reset();
+
+      captchaRef.current?.resetCaptcha();
+      setCaptchaToken("");
+      setCaptchaMissing(false);
+
       // eslint-disable-next-line react-hooks/set-state-in-effect -- resetting form state after server action requires setState
       setEmailMismatch(false);
     }
@@ -28,7 +37,14 @@ export default function ContactForm() {
       setEmailMismatch(true);
       return;
     }
+    if (!captchaToken) {
+      setCaptchaMissing(true);
+      return;
+    }
     setEmailMismatch(false);
+    setCaptchaMissing(false);
+
+    formData.set("h-captcha-response", captchaToken);
     formAction(formData);
   }
 
@@ -124,7 +140,29 @@ export default function ContactForm() {
           className="col-span-3 border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-[border-color,box-shadow] duration-200 outline-none resize-none bg-white hover:border-gray-300"
         />
       </div>
+      <div className="flex justify-center my-4">
+        <HCaptcha
+          ref={captchaRef}
+          sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
+          reCaptchaCompat={false}
+          onVerify={(token) => {
+            setCaptchaToken(token);
+            setCaptchaMissing(false);
+          }}
+          onExpire={() => {
+            setCaptchaToken("");
+          }}
+          onError={() => {
+            setCaptchaToken("");
+          }}
+        />
+      </div>
 
+      {captchaMissing && (
+        <p className="text-center text-sm text-red-600" role="alert">
+          Please complete the captcha before submitting.
+        </p>
+      )} 
       <button
         type="submit"
         disabled={isPending}
