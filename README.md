@@ -8,7 +8,7 @@ CMP_SCI-5500-001 · Software Engineering · Spring 2026 · UMSL
 
 ## Team
 
-**Project Group 2**
+**Team 2**
 
 - Abdul Rafay Ahmed Khan
 - Jason Blake
@@ -38,26 +38,36 @@ This site uses `robots.txt` and `noindex` meta tags to prevent search engine ind
 
 Audited March 2026. No console errors or non-critical warnings found. The project uses no third-party libraries beyond Next.js 16, Tailwind CSS 4, and React 19. All warnings from those frameworks were resolved during development.
 
-## PageSpeed Insights (April 8, 2026)
+## PageSpeed Insights (May 4, 2026)
+
+Lighthouse 13.0.1, Slow 4G throttling on Mobile, custom throttling on Desktop. Single page load on `/`.
 
 | Category | Mobile | Desktop |
 |---|---|---|
-| Performance | 92 | 100 |
+| Performance | 90 | 99 |
 | Accessibility | 100 | 100 |
 | Best Practices | 100 | 100 |
 | SEO | 66 (intentional - blocked from indexing per guidelines section 5) | 66 |
 
-Mobile performance metrics:
+Mobile core web vitals:
 
-| Metric | Value | Score |
-|---|---|---|
-| First Contentful Paint | 1.7s | 93 |
-| Speed Index | 4.2s | 77 |
-| Largest Contentful Paint | 2.9s | 80 |
-| Total Blocking Time | 20ms | 100 |
-| Cumulative Layout Shift | 0.00 | 100 |
+| Metric | Value |
+|---|---|
+| First Contentful Paint | 1.7s |
+| Speed Index | 4.2s |
+| Largest Contentful Paint | 3.0s |
+| Total Blocking Time | 140ms |
+| Cumulative Layout Shift | 0.00 |
 
-Desktop: FCP 0.3s, LCP 0.3s, TBT 10ms, CLS 0, SI 0.5s - all perfect scores.
+Desktop core web vitals:
+
+| Metric | Value |
+|---|---|
+| First Contentful Paint | 0.4s |
+| Speed Index | 0.8s |
+| Largest Contentful Paint | 0.5s |
+| Total Blocking Time | 110ms |
+| Cumulative Layout Shift | 0.00 |
 
 ---
 
@@ -70,7 +80,7 @@ Desktop: FCP 0.3s, LCP 0.3s, TBT 10ms, CLS 0, SI 0.5s - all perfect scores.
 
 ### Accessibility (WCAG 2.1 AA)
 - Full audit using Lighthouse, keyboard testing, and screen reader
-- All pages score 95+ on Lighthouse accessibility
+- All pages score 100 on Lighthouse accessibility (mobile and desktop, May 4, 2026)
 - Full report: [ACCESSIBILITY.md](ACCESSIBILITY.md)
 
 ### Documentation

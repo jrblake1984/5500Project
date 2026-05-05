@@ -2,7 +2,7 @@
 
 ## Overview
 
-This report covers the accessibility evaluation we did on the Process Feedback course project website (processfeedback-project on Vercel). Project Group 2 performed this evaluation as part of Phase II of CMP_SCI-5500-001 (Software Engineering), Spring 2026, UMSL.
+This report covers the accessibility evaluation we did on the Process Feedback course project website (processfeedback-project on Vercel). Team 2 performed this evaluation as part of Phase II of CMP_SCI-5500-001 (Software Engineering), Spring 2026, UMSL.
 
 Pages evaluated: Home (`/`), Contact (`/contact`), About (`/about`), Privacy (`/privacy`), Docs (`/docs`), 404 (not found).
 
@@ -21,18 +21,22 @@ Pages evaluated: Home (`/`), Contact (`/contact`), About (`/about`), Privacy (`/
 
 ## Lighthouse Scores (After Fixes)
 
+Latest run: May 4, 2026 with Lighthouse 13.0.1.
+
 | Page | Score | Issues Found | Issues Fixed |
 |------|-------|-------------|--------------|
-| Home (`/`) | 96 | 5 | 5 |
-| Contact (`/contact`) | 96 | 2 | 2 |
-| About (`/about`) | 97 | 1 | 1 |
-| Privacy (`/privacy`) | 97 | 1 | 1 |
-| Docs (`/docs`) | 98 | 0 | 0 |
-| 404 | 98 | 0 | 0 |
+| Home (`/`) | 100 | 5 | 5 |
+| Contact (`/contact`) | 100 | 2 | 2 |
+| About (`/about`) | 100 | 1 | 1 |
+| Privacy (`/privacy`) | 100 | 1 | 1 |
+| Docs (`/docs`) | 100 | 0 | 0 |
+| 404 | 100 | 0 | 0 |
 
 ---
 
 ## Issues Found and Fixed
+
+The "WCAG Criterion" column below references official success criterion IDs from the [W3C Web Content Accessibility Guidelines (WCAG) 2.1 specification](https://www.w3.org/TR/WCAG21/). Each ID maps to a named rule in the spec (for example, `1.3.1 Info and Relationships` is Level A, `2.4.6 Headings and Labels` is Level AA).
 
 | # | Issue | WCAG Criterion | Page(s) | Fix Applied |
 |---|-------|---------------|---------|-------------|
@@ -96,23 +100,23 @@ These items were already correctly implemented and passed evaluation without cha
 
 | Feature | Implementation | Status |
 |---------|---------------|--------|
-| Skip-to-content link | `<a href="#main" className="skip-link">` in layout | ✅ Pass |
-| `lang="en"` on `<html>` | `<html lang="en">` in layout | ✅ Pass |
-| `<main id="main">` landmark | `<main id="main">` wrapping page content | ✅ Pass |
-| Visible focus ring | `:focus-visible { outline: 2px solid #2563eb; }` in globals.css | ✅ Pass |
-| Print CSS | Hides nav/buttons/skip-link, forces light background | ✅ Pass |
-| FAQ accordion ARIA | `aria-expanded`, `aria-controls`, `role="region"`, `aria-labelledby` | ✅ Pass |
-| Navbar hamburger | `aria-expanded`, `aria-controls="mobile-menu"`, `aria-label` | ✅ Pass |
-| Desktop dropdown ARIA | `aria-expanded`, `aria-haspopup="true"`, `aria-controls` | ✅ Pass |
-| Contact form labels | All fields have `<label htmlFor>`, `aria-required="true"` | ✅ Pass |
-| Form status messages | `role="status" aria-live="polite"` (success) and `role="alert"` (error) | ✅ Pass |
-| Image alt text | All `<Image>` components have descriptive `alt` attributes | ✅ Pass |
-| Heading hierarchy (h1 to h2 to h3) | Verified on all 6 pages - no skipped levels | ✅ Pass |
-| Page `<title>` metadata | Unique and descriptive per page | ✅ Pass |
-| Decorative SVGs | `aria-hidden="true"` on all decorative icon SVGs | ✅ Pass |
+| Skip-to-content link | `<a href="#main" className="skip-link">` in layout | Pass |
+| `lang="en"` on `<html>` | `<html lang="en">` in layout | Pass |
+| `<main id="main">` landmark | `<main id="main">` wrapping page content | Pass |
+| Visible focus ring | `:focus-visible { outline: 2px solid #2563eb; }` in globals.css | Pass |
+| Print CSS | Hides nav/buttons/skip-link, forces light background | Pass |
+| FAQ accordion ARIA | `aria-expanded`, `aria-controls`, `role="region"`, `aria-labelledby` | Pass |
+| Navbar hamburger | `aria-expanded`, `aria-controls="mobile-menu"`, `aria-label` | Pass |
+| Desktop dropdown ARIA | `aria-expanded`, `aria-haspopup="true"`, `aria-controls` | Pass |
+| Contact form labels | All fields have `<label htmlFor>`, `aria-required="true"` | Pass |
+| Form status messages | `role="status" aria-live="polite"` (success) and `role="alert"` (error) | Pass |
+| Image alt text | All `<Image>` components have descriptive `alt` attributes | Pass |
+| Heading hierarchy (h1 to h2 to h3) | Verified on all 6 pages - no skipped levels | Pass |
+| Page `<title>` metadata | Unique and descriptive per page | Pass |
+| Decorative SVGs | `aria-hidden="true"` on all decorative icon SVGs | Pass |
 
 ---
 
 ## Summary
 
-We took care of accessibility from the start in Phase I, so the site was already in good shape before Phase II testing. During Phase II, we found and fixed four more issues through code review: decorative emoji that screen readers were reading aloud, dead anchor links, duplicate link labels, and missing `aria-controls` on mobile nav buttons. After those fixes, all six pages scored 96 or higher on Lighthouse accessibility.
+We took care of accessibility from the start in Phase I, so the site was already in good shape before Phase II testing. During Phase II, we found and fixed four more issues through code review: decorative emoji that screen readers were reading aloud, dead anchor links, duplicate link labels, and missing `aria-controls` on mobile nav buttons. After those fixes plus a final cleanup pass, every page scores 100 on Lighthouse accessibility (verified May 4, 2026 on both mobile and desktop).

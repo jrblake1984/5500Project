@@ -33,11 +33,20 @@ export default function RootLayout({ children }) {
           <a href="#main" className="skip-link">
             Skip to main content
           </a>
+          {/* Print-only header: shown only on printed pages so the brand survives when <nav> is hidden. */}
+          <div className="print-only-header" aria-hidden="true">
+            <span className="print-only-header__brand">UMSL PROJECT</span>
+            <span className="print-only-header__tag">Course Project at UMSL &middot; CMP_SCI-5500-001 Software Engineering, Spring 2026</span>
+          </div>
           <Navbar />
           <main id="main" className="flex-1">
             {children}
           </main>
           <Footer />
+          {/* Print-only footer: simple single-line attribution that prints when the real footer is hidden. */}
+          <div className="print-only-footer" aria-hidden="true">
+            Process Feedback &middot; Course Project at UMSL &middot; processfeedback-project.vercel.app
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
 # Phase II - Improvements and Decisions Report
 
 > **Course**: CMP_SCI-5500-001 · Software Engineering · Spring 2026 · UMSL  
-> **Team**: Project Group 2 - Abdul Rafay Ahmed Khan, Jason Blake, Rosmin Rose Binoy, Yusuf Mohamed Said Ali
+> **Team**: Team 2 - Abdul Rafay Ahmed Khan, Jason Blake, Rosmin Rose Binoy, Yusuf Mohamed Said Ali
 
 ---
 
@@ -9,13 +9,17 @@
 
 ### Summary
 
-After the midterm exam on March 31, 2026, we received feedback on our Phase I website. All feedback was logged in [FEEDBACK.md](FEEDBACK.md) and addressed systematically.
+After the midterm exam on March 31, 2026, we received feedback on our Phase I website. All feedback was logged in [FEEDBACK.md](FEEDBACK.md) and worked through one item at a time.
 
 ### Feedback Items
 
 | # | Category | Feedback | Fix Applied |
 |---|----------|----------|-------------|
-| (populated from FEEDBACK.md after midterm) | | | |
+| 1 | UI/UX | Site colors and layouts do not match the original | Updated exact hex values across all components, fixed Hero layout |
+| 2 | UI/UX | Navigation is flat links instead of dropdown mega-menu | Rebuilt Navbar.js with full mega-menu matching original |
+| 3 | UI/UX | Contact page missing 5 sections | Rebuilt as ContactPage.js with all sections and illustrations |
+| 4 | Branding | Logo and tagline do not match course requirements | Replaced with UMSL-themed maroon gear icon |
+| 5 | Accessibility | Site not evaluated for WCAG 2.1 AA | Performed full audit with Lighthouse + manual keyboard + screen reader testing |
 
 ### Process
 
@@ -45,7 +49,7 @@ We performed a full accessibility evaluation using:
 
 ### Results
 
-All pages achieved Lighthouse accessibility scores of 95+ after fixes. Full details in [ACCESSIBILITY.md](ACCESSIBILITY.md).
+All pages achieved a Lighthouse accessibility score of 100 (mobile and desktop) after fixes. Full details in [ACCESSIBILITY.md](ACCESSIBILITY.md).
 
 ---
 
@@ -111,29 +115,30 @@ It took us a while to figure out what was going on. The problem was that some co
 
 ### 5.2 Mobile Performance (PageSpeed Insights)
 
-Our final PageSpeed mobile performance score is **92 out of 100** (green). Here is the full breakdown:
+Our final PageSpeed mobile performance score is **90 out of 100** (green). Captured May 4, 2026 with Lighthouse 13.0.1, emulated Moto G Power, Slow 4G throttling.
 
-| Metric | Value | Score | Weight |
-|---|---|---|---|
-| First Contentful Paint (FCP) | 1,676ms | 93 | 10% |
-| Speed Index (SI) | 4,242ms | 77 | 10% |
-| Largest Contentful Paint (LCP) | 2,942ms | 80 | 25% |
-| Total Blocking Time (TBT) | 20ms | 100 | 30% |
-| Cumulative Layout Shift (CLS) | 0.00 | 100 | 25% |
+| Metric | Value | Weight |
+|---|---|---|
+| First Contentful Paint (FCP) | 1.7s | 10% |
+| Speed Index (SI) | 4.2s | 10% |
+| Largest Contentful Paint (LCP) | 3.0s | 25% |
+| Total Blocking Time (TBT) | 140ms | 30% |
+| Cumulative Layout Shift (CLS) | 0.00 | 25% |
 
 The main issues PageSpeed still flags are:
 
 - **Render-blocking requests** (est. savings of 150ms): The CSS and fonts load before the page can paint. We already use `next/font` for font optimization, but some framework-level resources still block the first paint.
-- **Unused JavaScript** (est. savings of 27 KiB): Next.js ships client-side JS for routing and hydration that we can't remove. We used `next/dynamic` to lazy-load 11 below-the-fold components (`WhatIsPF`, `ToolsTeachers`, `ToolsStudents`, `FeaturesTeachers`, `FeaturesStudents`, `TeacherTrainings`, `WeSimplyReveal`, `Conferences`, `FAQ`, `UsedInCountries`, `SeeItInAction`) so the initial bundle stays smaller.
+- **Reduce unused JavaScript** (est. savings of 27 KiB): Next.js ships client-side JS for routing and hydration that we can't remove. We used `next/dynamic` to lazy-load 11 below-the-fold components (`WhatIsPF`, `ToolsTeachers`, `ToolsStudents`, `FeaturesTeachers`, `FeaturesStudents`, `TeacherTrainings`, `WeSimplyReveal`, `Conferences`, `FAQ`, `UsedInCountries`, `SeeItInAction`) so the initial bundle stays smaller.
 - **Legacy JavaScript** (est. savings of 14 KiB): This comes from Next.js framework polyfills for older browsers. We can't control this.
+- **Avoid long main-thread tasks** (4 tasks): Mostly framework hydration work on first load.
 
-TBT and CLS are both perfect at 100. The LCP of 2.9s is mostly driven by Slow 4G network throttling (1.6 Mbps) that PageSpeed uses for mobile tests. On a real phone with a normal connection, LCP is much faster.
+CLS is perfect at 0. The LCP of 3.0s is mostly driven by Slow 4G network throttling (1.6 Mbps) that PageSpeed uses for mobile tests. On a real phone with a normal connection, LCP is much faster.
 
-Desktop performance scores a perfect **100 out of 100** with FCP at 0.3s and LCP at 0.3s.
+Desktop performance scores **99 out of 100** with FCP at 0.4s, LCP at 0.5s, TBT at 110ms, SI at 0.8s, and CLS at 0. The single point lost on desktop comes from the same render-blocking and legacy-JS items above plus a small image-delivery save of 6 KiB.
 
 ### 5.3 Mobile Accessibility (PageSpeed Insights)
 
-This one took the most back-and-forth. Our accessibility score started at **92** and we had to go through a few rounds of fixes to get it up to **96**.
+This one took the most back-and-forth. Our accessibility score started at **92** and we worked through three rounds of fixes to reach **100**. Latest PageSpeed (May 4, 2026) confirms 100 on both mobile and desktop.
 
 **Round 1 - ARIA issues (92 to ~94)**:
 - Lighthouse flagged `aria-label` on `<div>` elements that don't have a valid ARIA role. We fixed this by adding `role="img"` to decorative containers and `role="list"` to navigation `<ul>` elements.
@@ -144,11 +149,12 @@ This one took the most back-and-forth. Our accessibility score started at **92**
 - The "Loved by educators" text in the Hero section used `text-blue-600`, which only hit 3.81:1 on the light gradient background. Switching to `text-blue-800` pushed it above 5:1.
 - Several body-text elements used `text-gray-500` on tinted backgrounds (like the light blue Hero gradient), which gave a borderline 4.52:1 ratio. We changed them to `text-gray-600` for a comfortable 7.07:1.
 
-**Round 3 - Identical links (95 to 96)**:
+**Round 3 - Identical links and final ARIA cleanup (95 to 100)**:
 - Lighthouse flagged multiple links pointing to the same URL but with different (or missing) `aria-label` text. For example, "Google Docs" appeared as link text in both the Navbar and Footer, both pointing to `/gdocs`. We added unique `aria-label` attributes like "Google Docs Add-on - learn more" vs. "Google Docs Add-on - footer link" so screen readers can distinguish them.
 - The dateful.com link didn't have an `aria-label` at all, so we added one.
+- A final pass picked up the remaining items (mostly aria-label uniqueness and a couple of decorative containers needing `aria-hidden`), which closed the gap from 95 to 100.
 
-**Why we stopped at 96**: The last 4 points are mostly from stuff we can't really control, like how third-party scripts behave and how Lighthouse groups links together. 96 felt like a solid score, and chasing the last few points wasn't worth the effort.
+**Result**: 100 / 100 accessibility on both mobile and desktop in the latest PageSpeed Insights run.
 
 ### 5.4 Dark Mode on Cards and CTA Buttons
 
@@ -201,16 +207,47 @@ This is a known thing that happens when two sites use different font loading pip
 
 ## 7. Phase II vs. Phase I Comparison
 
-| Metric | Phase I | Phase II |
-|--------|---------|---------|
-| Pages | 6 (Home, Contact, About, Privacy, Docs, 404) | 7 (+Attribution) |
-| Components | ~8 | ~12 (+ThemeProvider, ThemeToggle, ContactPage, ContactForm) |
-| Accessibility support | Basic ARIA, skip link | WCAG 2.1 AA audit + targeted fixes |
-| Accessibility score | ~92 | 100 (mobile and desktop) |
-| Dark mode | Not implemented | Full class-based dark mode with toggle |
-| Contact form | Placeholder | Full form with retype-email validation |
-| Visual fidelity | ~80% match with original | ~95% match (real illustrations, correct layout) |
-| Performance (mobile) | ~93 | 92 (green) |
-| Performance (desktop) | Not tested | 100 |
-| Best Practices | Not tested | 100 |
-| Documentation | README only | README + ACCESSIBILITY.md + FEEDBACK.md + IMPROVEMENTS.md |
+| Metric | Phase I | Phase II | After Client Feedback |
+|--------|---------|---------|----------------------|
+| Pages | 6 (Home, Contact, About, Privacy, Docs, 404) | 7 (+Attribution) | 7 (no change) |
+| Components | ~8 | ~12 (+ThemeProvider, ThemeToggle, ContactPage, ContactForm) | ~12 (no change) |
+| Accessibility support | Basic ARIA, skip link | WCAG 2.1 AA audit + targeted fixes | Same |
+| Accessibility score | ~92 | 100 (mobile and desktop) | 100 |
+| Dark mode | Not implemented | Full class-based dark mode with toggle | Same |
+| Contact form | Placeholder | Full form with retype-email validation | Working (env var added to Vercel) |
+| Visual fidelity | ~80% match with original | ~95% match (real illustrations, correct layout) | ~95% |
+| Performance (mobile) | ~93 | 92 (green) | 90 (green) |
+| Performance (desktop) | Not tested | 100 | 99 |
+| Best Practices | Not tested | 100 | 100 |
+| SEO | Not tested | 62 (intentional - blocked from indexing) | 66 (intentional) |
+| Print behavior | Not tested | Basic print CSS | Full print CSS with FAQ expansion and color |
+| Documentation | README only | README + ACCESSIBILITY.md + FEEDBACK.md + IMPROVEMENTS.md | All updated |
+
+---
+
+## 8. Files Changed After Client Feedback
+
+After receiving the client grading report, we addressed the two failing criteria (Printing Behavior 20/100 and Contact Page 30/100).
+
+| File | Change Type | Description |
+|------|------------|-------------|
+| `src/app/globals.css` | Modified | Rewrote `@media print` block across 3 iterations. Final version: `print-color-adjust: exact` applied globally, explicit background colors per section (Hero, FAQ, Tools Teachers, Tools Students, Features), FAQ panels forced open, CTA buttons retain blue pill shape, nav/footer hidden, blobs hidden, grids linearized, ScrollReveal forced visible. |
+| Vercel Environment Variables | Modified | Added `WEB3FORMS_ACCESS_KEY` to Vercel project settings. This was the root cause of the "not configured yet" error. The key existed in `.env.local` for development but was missing from the production environment. |
+| `FEEDBACK.md` | Modified | Added full Client Feedback section documenting all 8 criteria scores and fixes applied |
+| `IMPROVEMENTS.md` | Modified | Added this section (8) and updated the comparison table (7) |
+
+### Print CSS
+
+The client scored us 20/100 on Printing Behavior. We added a dedicated `@media print` block in `globals.css` that forces light mode, expands the FAQ accordion, keeps the navbar brand and footer attribution, prints CTAs as readable pills, and applies explicit per-section background colors with border fallbacks. Chrome only renders backgrounds when the user enables "Background graphics" in the print dialog, which is a browser-level limitation no CSS can override.
+
+### Why SEO Is 66 (Expected)
+
+Our SEO score is 66 out of 100. This is intentional and expected. We use `robots.txt` to disallow all crawlers and `noindex` meta tags on every page. The course guidelines (section 5) require that student reconstructions do NOT appear in search engine results because they duplicate real content from processfeedback.org. A higher SEO score would mean we are violating the course rules by making the site indexable. The low score proves we are correctly blocking search engines.
+
+### Why Form Data Clears on Refresh (Not a Bug)
+
+The client noted that refreshing the page clears the form. This is standard browser behavior for every web form on the internet. No website retains form input after a page refresh unless it saves data to localStorage or a database, which adds complexity and raises privacy concerns (storing user input without consent). We do not consider this a bug.
+
+### Honeypot vs. Visible CAPTCHA
+
+The client noted that "human verification is not implemented." We use a server-side honeypot field as our spam prevention mechanism. This is invisible to real users (zero friction) but catches bots that auto-fill every field. We chose this over reCAPTCHA because reCAPTCHA adds a Google dependency, slows down the page, and often frustrates legitimate users. For a course project with low spam volume, a honeypot is the right choice.
